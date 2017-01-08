@@ -1,11 +1,11 @@
 <?php
 /******************* START VARIABLE *******************/
-  $fakultas = array("FSRD", "FSRD", "SAPPK", "SAPPK", "FMIPA");
-  $prodi = array("179", "174", "152", "152", "103");
-  $dosen = array("Siti Kusumawati Azhari", "Lies Neni Budiarti", "Bambang Setia Budi", "Bambang Setia Budi", "Endang Soegiartini");
-  $nama_kuliah = array("Hukum Milik Perindustrian", "Psikologi Persepsi", "Arsitektur Islam", "Arsitektur Kolonial", "Astronomi dan Lingkungan");
-  $kode_kuliah = array("KU4273", "DK3014", "AR4232", "AR3231", "AS2005");
-  $kelas = array("02", "02", "01", "01", "02");
+  $fakultas = array("STEI", "FSRD", "FSRD", "SAPPK", "SAPPK", "FMIPA");
+  $prodi = array("135", "179", "174", "152", "152", "103");
+  $nama_kuliah = array("Tugas Akhir II", "Hukum Milik Perindustrian", "Psikologi Persepsi", "Arsitektur Islam", "Arsitektur Kolonial", "Astronomi dan Lingkungan");
+  $dosen = array("Adi Mulyanto", "Siti Kusumawati Azhari", "Lies Neni Budiarti", "Bambang Setia Budi", "Bambang Setia Budi", "Endang Soegiartini");
+  $kode_kuliah = array("IF4092", "KU4273", "DK3014", "AR4232", "AR3231", "AS2005");
+  $kelas = array("01", "02", "02", "01", "01", "02");
 
   // ganti cookie dan save id di sini
   $save_id = "1470883662";
@@ -92,7 +92,7 @@
         -H \"Accept-Language: en-US,en;q=0.5\" --compressed \
         -H \"Referer: https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php?save=".$save_id."\" \
         -H \"Cookie: ".$cookie."\" \
-        -H \"Connection: keep-alive\"
+        -H \"Connection: keep-alive\" \
         --data \"submit=Simpan+Rencana+Studi&catatan=\"";
       //echo $query;
       shell_exec($query);
