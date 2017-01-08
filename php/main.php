@@ -29,9 +29,13 @@
       -H \"Cache-Control: max-age=0\"
     ");
 
+    $done = 0;
     for ($i = 0; $i < $n; $i++) {
       // check sudah diambil atau belum, kalo udah yaudah
-      if ($udah[$i]) continue;
+      if ($udah[$i]) {
+        $done++;
+        continue;
+      }
       $pos = strpos($response_all, $kode_kuliah[$i]);
       if ($pos) {
         $udah[$i] = true;
@@ -93,5 +97,7 @@
       //echo $query;
       shell_exec($query);
     }
+    if ($done == $n) break;
   }
+  echo "DONE! SEMUA KULIAH SELESAI DIAMBIL! SELAMAT!";
 ?>
