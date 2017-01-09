@@ -8,7 +8,6 @@
   $kelas = array("01", "02", "02", "01", "01", "02");
 
   // ganti cookie dan save id di sini
-  $save_id = "1470883662";
   $cookie = "uitb=p81uFVgYY9K+eFsDD7twAg==; bahasa=id; PHPSESSID=v13s4htukdfd9rhmr2f31gmg97";
 /******************* END OF VARIABLE *******************/
 
@@ -28,6 +27,11 @@
       -H \"Connection: keep-alive\" \
       -H \"Cache-Control: max-age=0\"
     ");
+    $pos = strpos($response_all, "You were redirected to");
+    if ($pos) {
+      echo "User dengan cookie ini ke-logout. Coba perbarui cookie.\n";
+      exit();
+    }
 
     $done = 0;
     for ($i = 0; $i < $n; $i++) {
@@ -54,7 +58,6 @@
         -H \"Connection: keep-alive\" \
         -H \"Cache-Control: max-age=0\"
       ");
-      echo $string;
       $check_penuh = $kelas[$i]." ".$dosen[$i]." (Penuh)";
       $pos = strpos($string, $check_penuh);
       if ($pos) {
@@ -64,15 +67,16 @@
 
       // ambil kuliah
       $query =
-        "curl \"https://ol.akademik.itb.ac.id/frs/editRencanaStudiProdi.php?fakultas=".$fakultas[$i]."&ps=".$prodi[$i]."\" \
+        "curl \"https://ol.akademik.itb.ac.id/frs/editRencanaStudiProdi.php\" \
         -H \"Host: ol.akademik.itb.ac.id\" \
         -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0\" \
         -H \"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\" \
-        -H \"Accept-Language: en-US,en;q=0.5\" --compressed \
-        -H \"Referer: https://ol.akademik.itb.ac.id/frs/editRencanaStudiProdi.php?fakultas=".$fakultas[$i]."&ps=".$prodi[$i]."\" \
+        -H \"Accept-Language: en-US,en;q=0.5\" \
+        -H \"Referer: https://ol.akademik.itb.ac.id/frs/editRencanaStudiProdi.php\" \
         -H \"Cookie: ".$cookie."\" \
+        -H \"DNT: 1\" \
         -H \"Connection: keep-alive\" \
-        -H \"Cache-Control: max-age=0\" \
+        -H \"Upgrade-Insecure-Requests: 1\" \
         --data \"all_mk\"%\"5B".$kode_kuliah[$i]."\"%\"5D=\
         &ambil\"%\"5B".$kode_kuliah[$i]."\"%\"5D=on\
         &kelas\"%\"5B".$kode_kuliah[$i]."\"%\"5D=".$kelas[$i]."\
@@ -84,13 +88,26 @@
     }
     // save rencana kuliah
     if ($changes) {
+      $string = shell_exec("
+        curl \"https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php\" \
+        -H \"Host: ol.akademik.itb.ac.id\" \
+        -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0\" \
+        -H \"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\" \
+        -H \"Accept-Language: en-US,en;q=0.5\" --compressed \
+        -H \"Referer: https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php\" \
+        -H \"Cookie: ".$cookie."\" \
+        -H \"Connection: keep-alive\"
+      ");
+      $pos = strpos($string, "?save=");
+      $save_id = substr($string, $pos + 6, 10);
+
       $query =
         "curl \"https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php?save=".$save_id."\" \
         -H \"Host: ol.akademik.itb.ac.id\" \
         -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0\" \
         -H \"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\" \
         -H \"Accept-Language: en-US,en;q=0.5\" --compressed \
-        -H \"Referer: https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php?save=".$save_id."\" \
+        -H \"Referer: https://ol.akademik.itb.ac.id/frs/simpanRencanaStudi.php\" \
         -H \"Cookie: ".$cookie."\" \
         -H \"Connection: keep-alive\" \
         --data \"submit=Simpan+Rencana+Studi&catatan=\"";
