@@ -8,7 +8,7 @@
   $kelas = array("01", "02", "02", "01", "01", "02");
 
   // ganti cookie dan save id di sini
-  $cookie = "uitb=p81uFVgYY9K+eFsDD7twAg==; bahasa=id; PHPSESSID=v13s4htukdfd9rhmr2f31gmg97";
+  $cookie = "uitb=p81uFVgK+eFsDD7twAg==; bahasa=id; PHPSESSID=v13s4htukdfd9rhmr2f31gmg97";
 /******************* END OF VARIABLE *******************/
 
   $n = sizeof($fakultas);
@@ -81,7 +81,7 @@
         &ambil\"%\"5B".$kode_kuliah[$i]."\"%\"5D=on\
         &kelas\"%\"5B".$kode_kuliah[$i]."\"%\"5D=".$kelas[$i]."\
         &submit=Ambil\"";
-      //echo $query;
+      echo $query;
       shell_exec($query);
 
       $changes = true;
